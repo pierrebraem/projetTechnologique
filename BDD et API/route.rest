@@ -1,0 +1,20 @@
+###
+//Créer une nouvelle historique
+POST http://localhost:3000/api/presence
+content-type: application/json
+
+{
+    "date": "2022-03-14",
+    "heure": "18:20",
+    "evenement": "début d'une présence détectée",
+    "peripherique": {
+        "nom": "Mov03",
+        "description": "Situé dans le local C087"
+    }
+}
+###
+//Affiche tout l'historique
+GET http://localhost:3000/api/presence
+###
+//Affiche l'historique d'un périphérique
+GET http://localhost:3000/api/presence/Mov03
