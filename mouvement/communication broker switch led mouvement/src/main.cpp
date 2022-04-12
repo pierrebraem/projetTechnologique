@@ -52,7 +52,7 @@ void Publication(char* message){
   snprintf(mqtt_payload, 30, message);
   Serial.print("Publication du message: ");
   Serial.println(mqtt_payload);
-  client.publish("mouvement", mqtt_payload);
+  client.publish("zigbee2mqtt/0x00124b002342c261/set", mqtt_payload);
   Serial.println("Données publiées");
 }
 
@@ -95,10 +95,10 @@ void loop() {
   bool PIR_status = digitalRead(pin_data);
 
   if(PIR_status){
-    Publication("Mouvement détecté");
+    Publication("{\"state\": \"ON\"}");
   }
   else{
-    Publication("Mouvement non détecté");
+    Publication("{\"state\": \"OFF\"}");
   }
 
   delay(1000);
