@@ -58,8 +58,8 @@ void Publication(char* message){
 
 void setup() {
   //Connexion au Wifi
-  //Serial.begin(115200);
-  Serial.begin(9600);
+  Serial.begin(115200);
+  //Serial.begin(9600);
   Serial.print("Connection au WiFi : ");
   Serial.println(ssid);
 
@@ -101,5 +101,5 @@ void loop() {
     Publication("{\"state\": \"OFF\"}");
   }
 
-  delay(1000);
+  delay(5000);
 }
