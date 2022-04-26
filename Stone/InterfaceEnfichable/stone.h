@@ -47,7 +47,6 @@ public:
 
     void setPosition(const char *labelName,int posX,int posY);
     void setColorBackground(const char *labelName,unsigned int r,unsigned int g,unsigned int b,unsigned int alpha);
-    void menu();
 };
 
 #endif

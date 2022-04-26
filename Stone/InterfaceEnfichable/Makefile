@@ -5,18 +5,18 @@
 # Copyright 2002-2006 Aaron Isotton <aaron@isotton.com>
 # Licensed under the GNU GPL.
 
+all: example run
 
-
-example: main.cpp panelAddon.hpp plugInFumee.so MySerial.cpp rapidxml.hpp rapidxml_utils.hpp stone.h
-	$(CXX) $(CXXFLAGS)	-fPIC -std=c++2a -o example main.cpp panelAddon.hpp plugInFumee.so MySerial.cpp rapidxml.hpp rapidxml_utils.hpp stone.h -lstdc++fs -ldl -lpthread
+example: main.cpp panelAddon.hpp plugInFumee.so MySerial.cpp stone.cpp
+	g++	-fPIC -std=c++2a -o example main.cpp MySerial.cpp stone.cpp -ldl -lpthread
 
 plugInFumee.so: plugInFumee.cpp panelAddon.hpp
 	$(CXX) $(CXXFLAGS) -fPIC -shared -o plugInFumee.so plugInFumee.cpp
 
 clean:
-	rm -f example plugInFumee.so
+#	rm -f example plugInFumee.so
 
 run:
-	./example
+	./example ttyUSB0
 
-.PHONY: clean
+.PHONY: run clean

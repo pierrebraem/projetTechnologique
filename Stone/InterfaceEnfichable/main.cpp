@@ -35,15 +35,34 @@
  * */
 #include <iostream>
 #include <stdio.h>
+#include <filesystem>
 #include <string.h>
-#include <stdlib.h>
+#include <dlfcn.h>        //Dynamic library
 
 #include <thread> //std::thread
 #include <chrono> //Sleep
 
+#include "panelAddon.hpp"
+#include "rapidxml.hpp"
+#include "rapidxml_utils.hpp"
 #include "stone.h"
+
 #include "MySerial.h"
 MySerial *mySerial;
+
+namespace fs = std::filesystem;
+
+// Menu utilisé pour tester les fonctionalités implantées
+int selection = 0;
+char data[255];
+
+void* plugIns[1024];
+create_t* create_plugIns[1024];
+destroy_t* destroy_plugIns[1024];
+panelAddon* addon[1024];
+int NbrePlugIns = 0;
+int NbreAddon = 0;
+static Stone stone; //todo
 
 // Structure local utilisés pour garder les informations lues de l'écran
 struct datasRead
@@ -55,9 +74,6 @@ struct datasRead
   char line[2048];
 };
 
-// Menu utilisé pour tester les fonctionalités implantées
-int selection = 0;
-char data[255];
 void menu()
 {
   std::cout << std::endl;
@@ -376,49 +392,53 @@ void fonctionLoop()
 int main(int argc, char **argv)
 {
   using std::cout;
-    using std::cerr;
+  using std::cerr;
+
+  char serialPort[255];
+  strcpy(serialPort, "/dev/");
+  strcat(serialPort, argv[1]);
+
+  mySerial = new MySerial(serialPort);
+
+  char ComPortName[] = {"/dev/" };
+  int valRet = stone.init(ComPortName, 115200);
+  if(valRet==-1){
+    return(0);
+  }
+
+  //return(0);
+  //Lecture des configurations Xml du programme
+  //Vide et initialise tous les éléments de l'écran
+  rapidxml::file<> xmlFile("stone.xml");
+  rapidxml::xml_document<> doc;
+  doc.parse<0>(xmlFile.data());
+  //rapidxml::xml_node<> *node = doc.first_node();
+  std::string xmlVersion = (doc.first_node("version")? doc.first_node("version")->value():"");
+  std::string xmlTeam = (doc.first_node("team")? doc.first_node("team")->value():"");
+  std::string xmlThanks = (doc.first_node("thanks")? doc.first_node("thanks")->value():"");
+  //handlenode(node);
 
 
 
-    char ComPortName[] = {"/dev/ttyUSB0" };
-    int valRet = stone.init(ComPortName, 115200);
-    if(valRet==-1){
-        return(0);
-            }
+  //Parcourir le répertoire pour loader les libraries
+  int iPlugIns = 0;
+  std::string path = "./";
+  std::string ext(".so");
+  //Va lire tous les fichiers du chemin (le chemin est stockée dans path)
+  for (const auto & entry : fs::directory_iterator(path))
+    //Si l'extension est égal à la variable ext (ici .so) alors charger la librairie
+    if (entry.path().extension() == ext) {
+      std::cout << "\nLibrarie trouvee: " << entry.path() << std::endl;
 
- //return(0);
-    //Lecture des configurations Xml du programme
-    //Vide et initialise tous les éléments de l'écran
-    rapidxml::file<> xmlFile("stone.xml");
-    rapidxml::xml_document<> doc;
-    doc.parse<0>(xmlFile.data());
-    //rapidxml::xml_node<> *node = doc.first_node();
-    std::string xmlVersion = (doc.first_node("version")? doc.first_node("version")->value():"");
-    std::string xmlTeam = (doc.first_node("team")? doc.first_node("team")->value():"");
-    std::string xmlThanks = (doc.first_node("thanks")? doc.first_node("thanks")->value():"");
-    //handlenode(node);
-
-
-
-    //Parcourir le répertoire pour loader les libraries
-    int iPlugIns = 0;
-    std::string path = "./";
-    std::string ext(".so");
-    //Va lire tous les fichiers du chemin (le chemin est stockée dans path)
-    for (const auto & entry : std::experimental::filesystem::directory_iterator(path))
-        //Si l'extension est égal à la variable ext (ici .so) alors charger la librairie
-        if (entry.path().extension() == ext) {
-            std::cout << "\nLibrarie trouvee: " << entry.path() << std::endl;
-
-            //Essai de loader la librarie
-            // load the plugInFumee library
-            std::string  libraryFileName = entry.path();
-            plugIns[NbrePlugIns] = dlopen(libraryFileName.c_str(), RTLD_LAZY);
-            if (!plugIns[NbrePlugIns] ) {
-                cerr << "Cannot load " << libraryFileName.c_str() << ": " << dlerror() << '\n';
-                return 1;
-                }
-            std::cout << "\nLibrarie overte " << std::endl;
+      //Essai de loader la librarie
+      // load the plugInFumee library
+      std::string  libraryFileName = entry.path();
+      plugIns[NbrePlugIns] = dlopen(libraryFileName.c_str(), RTLD_LAZY);
+      if (!plugIns[NbrePlugIns] ) {
+        cerr << "Cannot load " << libraryFileName.c_str() << ": " << dlerror() << '\n';
+        return 1;
+      }
+      std::cout << "\nLibrarie overte " << std::endl;
 
             // reset errors
             dlerror();
@@ -446,7 +466,7 @@ int main(int argc, char **argv)
                 fileName += entry.path().filename().replace_extension("xml.");
                 fileName += std::to_string(jj);
 
-                if(std::experimental::filesystem::exists(fileName)){
+                if(fs::exists(fileName)){
                     cout << "File exist: " << fileName << "\n";
 
                     addon[NbreAddon] = create_plugIns[NbrePlugIns]();
@@ -472,23 +492,23 @@ int main(int argc, char **argv)
   //setUpStonePanel();
 
   //Lancer un tread pour lire les données de la tablette Stone
-  std::thread first (f);
+  std::thread first (fonctionLoop);
 
-    menu();
+  menu();
 
 
-    //Détruire les addOns
-    for(int i=0; i<NbreAddon; i++) {
-        delete addon[i];
-        std::cout << "\nAddOn détruit : " << i << std::endl;
-        }
+  //Détruire les addOns
+  for(int i=0; i<NbreAddon; i++) {
+    delete addon[i];
+    std::cout << "\nAddOn détruit : " << i << std::endl;
+  }
 
-    //Détruire les plugins
-    for(int i=0; i<NbrePlugIns; i++) {
-        // unload the library
-        dlclose(plugIns[i]);
-        std::cout << "\nLibrarie détruite : "<< i << std::endl;
-        }
+  //Détruire les plugins
+  for(int i=0; i<NbrePlugIns; i++) {
+    // unload the library
+    dlclose(plugIns[i]);
+    std::cout << "\nLibrarie détruite : "<< i << std::endl;
+  }
 
-    return(0);
+  return(0);
 }
