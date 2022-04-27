@@ -19,7 +19,7 @@ public:
 
     virtual double area() const = 0;
     virtual int init(std::string filename, Stone* stone);
-    virtual int nombre1() const = 0;
+    //virtual int nombre1();
 };
 
 // the types of the class factories

@@ -487,7 +487,7 @@ int main(int argc, char **argv)
     for(int i=0; i<NbreAddon; i++) {
         addon[i]->set_side_length(7);
         cout << "The area is: " << addon[i]->area() << '\n';
-        cout << "Nombre1: " << addon[i]->nombre1() << '\n';
+        //cout << "Nombre1: " << addon[i]->nombre1() << '\n';
     }
 
   //setUpStonePanel();
