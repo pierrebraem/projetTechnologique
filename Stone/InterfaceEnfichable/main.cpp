@@ -438,7 +438,7 @@ int main(int argc, char **argv)
         cerr << "Cannot load " << libraryFileName.c_str() << ": " << dlerror() << '\n';
         return 1;
       }
-      std::cout << "\nLibrarie overte " << std::endl;
+      std::cout << "\nLibrarie ouverte " << std::endl;
 
             // reset errors
             dlerror();
@@ -487,7 +487,8 @@ int main(int argc, char **argv)
     for(int i=0; i<NbreAddon; i++) {
         addon[i]->set_side_length(7);
         cout << "The area is: " << addon[i]->area() << '\n';
-        }
+        cout << "Nombre1: " << addon[i]->nombre1() << '\n';
+    }
 
   //setUpStonePanel();
 
