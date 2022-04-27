@@ -444,7 +444,7 @@ int main(int argc, char **argv)
             dlerror();
 
             // load the symbols
-            create_plugIns[NbrePlugIns] = (create_t*) dlsym(plugIns[NbrePlugIns] , "create");
+            /* create_plugIns[NbrePlugIns] = (create_t*) dlsym(plugIns[NbrePlugIns] , "create");
             const char* dlsym_error = dlerror();
             if (dlsym_error) {
                 cerr << "Cannot load symbol create: " << dlsym_error << '\n';
@@ -456,7 +456,7 @@ int main(int argc, char **argv)
             if (dlsym_error) {
                 cerr << "Cannot load symbol destroy: " << dlsym_error << '\n';
                 return 1;
-                }
+                } */
 
             //Trouver tous les fichiers Xml correspendants (maximum de 10 pour l'instant)
             int vRet = 0;

@@ -8,11 +8,3 @@ public:
     }
 
 };
-
-extern "C" panelAddon* create(){
-    return new plugInMouvement;
-}
-
-extern "C" void destroy(panelAddon* p){
-    delete p;
-}
