@@ -2,6 +2,7 @@
 #define PANNEL_ADDON_HPP
 #include <string>
 #include "stone.h"
+#include "rapidxml.hpp"
 
 class panelAddon {
 protected:
@@ -18,8 +19,9 @@ public:
     }
 
     virtual double area() const = 0;
-    virtual int init(std::string filename, Stone* stone);
-    //virtual int nombre1();
+    virtual int init(std::string filename, Stone* stone){};
+    virtual int nombre1(){};
+    rapidxml::xml_document<> initXML(char* Fichierxml){};
 };
 
 // the types of the class factories

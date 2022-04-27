@@ -425,7 +425,7 @@ int main(int argc, char **argv)
   std::string path = "./";
   std::string ext(".so");
   //Va lire tous les fichiers du chemin (le chemin est stockée dans path)
-  for (const auto & entry : fs::directory_iterator(path))
+  for (const auto & entry : fs::directory_iterator(path)){
     //Si l'extension est égal à la variable ext (ici .so) alors charger la librairie
     if (entry.path().extension() == ext) {
       std::cout << "\nLibrarie trouvee: " << entry.path() << std::endl;
@@ -463,7 +463,7 @@ int main(int argc, char **argv)
             for(int jj=0; jj<10; jj++){
                 std::string fileName = entry.path().parent_path();
                 fileName += std::string("/");
-                fileName += entry.path().filename().replace_extension("xml.");
+                fileName += entry.path().filename().replace_extension(".xml");
                 fileName += std::to_string(jj);
 
                 if(fs::exists(fileName)){
@@ -480,15 +480,19 @@ int main(int argc, char **argv)
                     NbreAddon++;
                     }
                 }
-                NbrePlugIns++;
+              NbrePlugIns++;
             }
+          }
 
     //Parcourir les plugins et les initialiser
     for(int i=0; i<NbreAddon; i++) {
-        addon[i]->set_side_length(7);
-        cout << "The area is: " << addon[i]->area() << '\n';
-        //cout << "Nombre1: " << addon[i]->nombre1() << '\n';
+      addon[i]->set_side_length(7);
+      cout << "The area is: " << addon[i]->area() << '\n';
     }
+
+    /* for(int i=0; i<NbreAddon; i++){
+      cout << "Nombre: " << addon[i]->nombre1() << '\n'; 
+    } */
 
   //setUpStonePanel();
 
