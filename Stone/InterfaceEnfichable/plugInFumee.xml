@@ -1,3 +1,21 @@
-<version>2.2</version>
-<team>Team Fortress 2</team>
-<thanks>Merci</thanks>
+<?xml version="1.0"?>
+<Mouvements>
+    <Mouvement id="Mov03">
+        <Date>2022-03-14</Date>
+        <Heure>18:20</Heure>
+        <Evenement>Début d'une présence détectée</Evenement>
+        <Peripherique>
+            <Nom>Mov03</Nom>
+            <Description>Situé dans le local C087</Description>
+        </Peripherique>
+    </Mouvement>
+    <Mouvement id="Mov05">
+        <Date>2022-04-28</Date>
+        <Heure>12:32</Heure>
+        <Evenement>Fin de la détection</Evenement>
+        <Peripherique>
+            <Nom>Mov05</Nom>
+            <Description>Situé dans le local C080</Description>
+        </Peripherique>
+    </Mouvement>
+</Mouvements>

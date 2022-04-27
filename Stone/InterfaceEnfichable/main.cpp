@@ -444,7 +444,7 @@ int main(int argc, char **argv)
             dlerror();
 
             // load the symbols
-            /* create_plugIns[NbrePlugIns] = (create_t*) dlsym(plugIns[NbrePlugIns] , "create");
+            create_plugIns[NbrePlugIns] = (create_t*) dlsym(plugIns[NbrePlugIns] , "create");
             const char* dlsym_error = dlerror();
             if (dlsym_error) {
                 cerr << "Cannot load symbol create: " << dlsym_error << '\n';
@@ -456,7 +456,7 @@ int main(int argc, char **argv)
             if (dlsym_error) {
                 cerr << "Cannot load symbol destroy: " << dlsym_error << '\n';
                 return 1;
-                } */
+                }
 
             //Trouver tous les fichiers Xml correspendants (maximum de 10 pour l'instant)
             int vRet = 0;
@@ -464,14 +464,17 @@ int main(int argc, char **argv)
                 std::string fileName = entry.path().parent_path();
                 fileName += std::string("/");
                 fileName += entry.path().filename().replace_extension(".xml");
-                fileName += std::to_string(jj);
-
+                //fileName += std::to_string(jj);
+                
                 if(fs::exists(fileName)){
                     cout << "File exist: " << fileName << "\n";
 
                     addon[NbreAddon] = create_plugIns[NbrePlugIns]();
 
+                    cout << "coucou" << "\n";
+
                     vRet = addon[NbreAddon]->init(fileName, &stone);
+                    cout << vRet << "\n";
                     if (vRet < 0 ){
                         cerr << "Initialisation addon failed: " << vRet << '\n';
                         continue;
