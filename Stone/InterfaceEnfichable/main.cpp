@@ -471,8 +471,6 @@ int main(int argc, char **argv)
 
                     addon[NbreAddon] = create_plugIns[NbrePlugIns]();
 
-                    cout << "coucou" << "\n";
-
                     vRet = addon[NbreAddon]->init(fileName, &stone);
                     cout << vRet << "\n";
                     if (vRet < 0 ){

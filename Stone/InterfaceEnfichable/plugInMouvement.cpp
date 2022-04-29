@@ -25,7 +25,7 @@ public:
         rapidxml::xml_node<> *Mouvement_node = root_node->first_node("Mouvement");
         xmlDate = Mouvement_node->first_node("Date")->value();
 
-        std::cout << "coucou" << "\n";
+        std::cout << xmlDate << "\n";
 
         return 0;
     }

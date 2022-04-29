@@ -7,11 +7,8 @@
 
 all: example run
 
-example: main.cpp panelAddon.hpp plugInFumee.so plugInMouvement.so MySerial.cpp stone.cpp
+example: main.cpp panelAddon.hpp plugInMouvement.so MySerial.cpp stone.cpp
 	g++	-fPIC -std=c++2a -o example main.cpp MySerial.cpp stone.cpp -ldl -lpthread
-
-plugInFumee.so: plugInFumee.cpp panelAddon.hpp
-	$(CXX) $(CXXFLAGS) -fPIC -shared -o plugInFumee.so plugInFumee.cpp
 
 plugInMouvement.so: plugInMouvement.cpp panelAddon.hpp
 	$(CXX) $(CXXFLAGS) -fPIC -shared -o plugInMouvement.so plugInMouvement.cpp
