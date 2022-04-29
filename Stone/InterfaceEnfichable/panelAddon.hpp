@@ -19,7 +19,12 @@ public:
 
     virtual double area() const = 0;
     virtual int init(std::string filename, Stone* stone){};
-    virtual int nombre1(){};
+    
+    //Variable pour le broker
+    virtual void DemarrageMqtt(){};
+    virtual void ArretMqtt(){};
+    virtual void Publish(const char* message){};
+    virtual bool Subcribe(){};
 };
 
 // the types of the class factories

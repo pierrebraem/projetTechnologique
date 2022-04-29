@@ -79,6 +79,7 @@ void menu()
   std::cout << std::endl;
   selection = 0;
   std::cout << " Please choose from the following options - \n";
+  std::cout << " 8. Publish mqtt. \n";
   std::cout << " 7. rotation. \n";
   std::cout << " 6. xy. \n";
   std::cout << " 5. labelTest. \n";
@@ -470,6 +471,10 @@ int main(int argc, char **argv)
                     cout << "File exist: " << fileName << "\n";
 
                     addon[NbreAddon] = create_plugIns[NbrePlugIns]();
+
+                    //addon[NbreAddon]->DemarrageMqtt();
+                    //addon[NbreAddon]->Publish("Hello world!");
+                    //addon[NbreAddon]->ArretMqtt();
 
                     vRet = addon[NbreAddon]->init(fileName, &stone);
                     cout << vRet << "\n";
