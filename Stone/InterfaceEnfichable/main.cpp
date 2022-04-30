@@ -128,9 +128,9 @@ void menu()
     menu();
   }
   if (selection == 5)
-  { // Demande set heure
+  { // Demande set texte
     char cmdFormat2[99];
-    strcpy(cmdFormat2, "ST<{\"cmd_code\":\"set_text\",\"type\":\"label\",\"widget\":\"label1\",\"text\":\"test\"}>ET");
+    strcpy(cmdFormat2, "ST<{\"cmd_code\":\"set_text\",\"type\":\"label\",\"widget\":\"nomdectecteurlabel\",\"text\":\"test\"}>ET");
     std::cout << cmdFormat2 << "\n";
     mySerial->writeIt((char *)cmdFormat2);
     menu();

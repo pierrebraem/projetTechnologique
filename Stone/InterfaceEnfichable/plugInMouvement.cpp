@@ -2,11 +2,15 @@
 #include "rapidxml.hpp"
 #include "rapidxml_utils.hpp"
 #include "myMqtt.hpp"
+#include "MySerial.h"
 #include <cmath>
 #include <string>
 
 class plugInMouvement : public panelAddon{
 public:
+    //Déclaration de classe "MySerial"
+    MySerial *mySerial;
+
     //Déclaration variable XML
     std::string xmlNomActuel;
     std::string xmlDescription;
@@ -33,17 +37,27 @@ public:
 
         //Met tous les noms des senseurs dans un tableau afin de les afficher dans des boutons
         int i = 0;
-        std::string xmlNoms[2];
+        std::string xmlNoms[5];
         for(Mouvement_node; Mouvement_node; Mouvement_node = Mouvement_node->next_sibling()){
             xmlNoms[i] = Mouvement_node->first_node("Peripherique")->first_node("Nom")->value();
             i++;
         }
 
-        std::cout << xmlNomActuel << "\n";
+        //Met les informations dans l'écran Stone 
+        char cmdFormatNom[99];
+        strcpy(cmdFormatNom, "ST<{\"cmd_code\":\"set_text\",\"type\":\"label\",\"widget\":\"nomdectecteurlabel\",\"text\":\"test\"}>ET");
+        //std::cout << cmdFormatNom << "\n";
+        //mySerial->writeIt("ST<{\"cmd_code\":\"set_text\",\"type\":\"label\",\"widget\":\"nomdectecteurlabel\",\"text\":\"test\"}>ET");
+        char cmdFormatDescription[99];
+        strcpy(cmdFormatDescription, "ST<{\"cmd_code\":\"set_text\",\"type\":\"label\",\"widget\":\"description\",\"text\":\"test\"}>ET");
+        //std::cout << cmdFormatNom << "\n";
+        //mySerial->writeIt("ST<{\"cmd_code\":\"set_text\",\"type\":\"label\",\"widget\":\"nomdectecteurlabel\",\"text\":\"test\"}>ET");
+
+        /* std::cout << xmlNomActuel << "\n";
         std::cout << xmlDescription << "\n";
         for(std::string x : xmlNoms){
             std::cout << x << "\n";
-        }
+        } */
 
         return 0;
     }
