@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<Lumieres>
+    <Lumiere id="Lamp03">
+        <Date>2022-03-14</Date>
+        <Heure>18:20</Heure>
+        <Evenement>Lampe activée</Evenement>
+        <Peripherique>
+            <Nom>Mov03</Nom>
+            <Description>Logiciel de gestion des lampes</Description>
+        </Peripherique>
+    </Lumiere>
+    <Lumiere id="Lamp05">
+        <Date>2022-04-28</Date>
+        <Heure>12:32</Heure>
+        <Evenement>Lampe fermée</Evenement>
+        <Peripherique>
+            <Nom>Mov05</Nom>
+            <Description>Logiciel de gestion des lampes</Description>
+        </Peripherique>
+    </Lumiere>
+</Lumieres>

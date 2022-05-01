@@ -37,9 +37,9 @@ public:
 
         //Met tous les noms des senseurs dans un tableau afin de les afficher dans des boutons
         int i = 0;
-        std::string xmlNoms[4];
+        std::string xmlNoms[9];
         for(Mouvement_node; Mouvement_node; Mouvement_node = Mouvement_node->next_sibling()){
-            if(i < 4){
+            if(i < 9){
                 xmlNoms[i] = Mouvement_node->first_node("Peripherique")->first_node("Nom")->value();
                 i++;
             }
@@ -55,7 +55,7 @@ public:
         //std::cout << cmdFormatDescription << "\n";
         //mySerial->writeIt((char*) cmdFormatDescription);
 
-        /* std::cout << xmlNomActuel << "\n";
+        /* std::cout << xmlNom << "\n";
         std::cout << xmlDescription << "\n";
         for(std::string x : xmlNoms){
             std::cout << x << "\n";
