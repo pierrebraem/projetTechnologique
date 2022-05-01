@@ -12,7 +12,7 @@ public:
     MySerial *mySerial;
 
     //Déclaration variable XML
-    std::string xmlNomActuel;
+    std::string xmlNom;
     std::string xmlDescription;
 
     //Déclaration de la classe "myMqtt"
@@ -32,26 +32,28 @@ public:
         //Récupère le nom est la description du premier détecteur de mouvement de la liste dans le fichier XML
         root_node = doc.first_node("Mouvements");
         rapidxml::xml_node<> *Mouvement_node = root_node->first_node("Mouvement");
-        xmlNomActuel = Mouvement_node->first_node("Peripherique")->first_node("Nom")->value();
+        xmlNom = Mouvement_node->first_node("Peripherique")->first_node("Nom")->value();
         xmlDescription = Mouvement_node->first_node("Peripherique")->first_node("Description")->value();
 
         //Met tous les noms des senseurs dans un tableau afin de les afficher dans des boutons
         int i = 0;
-        std::string xmlNoms[5];
+        std::string xmlNoms[4];
         for(Mouvement_node; Mouvement_node; Mouvement_node = Mouvement_node->next_sibling()){
-            xmlNoms[i] = Mouvement_node->first_node("Peripherique")->first_node("Nom")->value();
-            i++;
+            if(i < 4){
+                xmlNoms[i] = Mouvement_node->first_node("Peripherique")->first_node("Nom")->value();
+                i++;
+            }
         }
 
         //Met les informations dans l'écran Stone 
         char cmdFormatNom[99];
         strcpy(cmdFormatNom, "ST<{\"cmd_code\":\"set_text\",\"type\":\"label\",\"widget\":\"nomdectecteurlabel\",\"text\":\"test\"}>ET");
         //std::cout << cmdFormatNom << "\n";
-        //mySerial->writeIt("ST<{\"cmd_code\":\"set_text\",\"type\":\"label\",\"widget\":\"nomdectecteurlabel\",\"text\":\"test\"}>ET");
+        //mySerial->writeIt((char*) cmdFormatNom));
         char cmdFormatDescription[99];
         strcpy(cmdFormatDescription, "ST<{\"cmd_code\":\"set_text\",\"type\":\"label\",\"widget\":\"description\",\"text\":\"test\"}>ET");
-        //std::cout << cmdFormatNom << "\n";
-        //mySerial->writeIt("ST<{\"cmd_code\":\"set_text\",\"type\":\"label\",\"widget\":\"nomdectecteurlabel\",\"text\":\"test\"}>ET");
+        //std::cout << cmdFormatDescription << "\n";
+        //mySerial->writeIt((char*) cmdFormatDescription);
 
         /* std::cout << xmlNomActuel << "\n";
         std::cout << xmlDescription << "\n";
@@ -59,34 +61,57 @@ public:
             std::cout << x << "\n";
         } */
 
+        //Récupère l'historique de la BDD
+
         return 0;
     }
 
-    void DemarrageMqtt(){
-        mqtt = new myMqtt("Ecran", "Stone/test", "172.16.206.200", 1883);
-    }
-
-    void ArretMqtt(){
+    //Récupère du MQTT le statut actuel du capteur
+    void lireMouvement(){
+        mqtt = new myMqtt("mouvement", "zigbee2mqtt/0x00124b002342c261/get", "172.16.206.200", 1883);
+        bool set = mqtt->receive_msg();
+        if(set == "ON"){
+            cmdFormatOn[99];
+            strcpy(cmdFormatOn, "ST<{\"cmd_code\":\"set_text\",\"type\":\"label\",\"widget\":\"lecturecadre\",\"text\":\"ON\"}>ET");
+            mySerial->writeIt((char* ) cmdFormatOn);
+        }
+        else{
+            cmdFormatOff[99];
+            strcpy(cmdFormatOff, "ST<{\"cmd_code\":\"set_text\",\"type\":\"label\",\"widget\":\"lecturecadre\",\"text\":\"OFF\"}>ET");
+            mySerial->writeIt((char* ) cmdFormatOff);
+        }
         delete mqtt;
     }
 
-    void Publish(const char* message){
-        try{
-            mqtt->send_msg(message);
-        }
-        catch(const char* message){
-            std::cout << "Une erreur s'est produite lors de l'envoie du message" << "\n";
-        }
-    }
+    //Charge le capteur de mouvement sélectionner
+    void ChargerMov(const char* mov, std::string filename, Stone* stone){
+        //Voir ce que la tablette retourne lorsqu'on appuie sur un bouton
+        std::string idMov; //Variable temporaire
+        rapidxml::xml_node<> *root_node;
+        rapidxml::file<> xmlFile(filename.c_str());
+        rapidxml::xml_document<> doc;
+        doc.parse<0>(xmlFile.data());
 
-    bool Subcribe(){
-        try{
-            bool set = mqtt->receive_msg();
-            return set;
+        root_node = doc.first_node("Mouvements");
+        rapidxml::xml_node<> *Mouvement_node = root_node->first_node("Mouvement");
+        for(Mouvement_node; Mouvement_node; Mouvement_node = Mouvement_node->next_sibling()){
+            if(Mouvement_node->first_attribute("id")->value == idMov){
+                xmlNom = Mouvement_node->first_node("Peripherique")->first_node("Nom")->value();
+                xmlDescription = Mouvement_node->first_node("Peripherique")->first_node("Description")->value();
+                char cmdFormatNom[99];
+                strcpy(cmdFormatNom, "ST<{\"cmd_code\":\"set_text\",\"type\":\"label\",\"widget\":\"description\",\"text\":\"");
+                strcpy(cmdFormatNom, xmlNom);
+                strcpy(cmdFormatNom, "\"}>ET");
+                mySerial->writeIt((char*) cmdFormatNom));
+                char cmdFormatDescription[99];
+                strcpy(cmdFormatDescription, "ST<{\"cmd_code\":\"set_text\",\"type\":\"label\",\"widget\":\"description\",\"text\":\"");
+                strcpy(cmdFormatDescription, xmlDescription);
+                strcpy(cmdFormatDescription, "\"}>ET");
+                mySerial->writeIt((char*) cmdFormatDescription);
+            }
         }
-        catch(int erreur){
-            return 0;
-        }
+
+        //Récupère l'historique de la base de données
     }
 };
 

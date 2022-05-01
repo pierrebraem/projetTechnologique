@@ -35,18 +35,18 @@ public:
     Stone();
     ~Stone(){};
     int init(char *comPort,uint speed = 115200);
-    void changePage(const char *pageName,int timeWaitingAfterInMs = 0);
-    int getVersion();
+    //void changePage(const char *pageName,int timeWaitingAfterInMs = 0);
+    //int getVersion();
     dataRead getValidsDatasIfExists();
-    void sendDatas(const char *dataToSend);
-    void setLabel(const char *labelName,const char *value);
-    void setEnable(const char *labelName,const bool value);
-    void setVisible(const char *labelName,const bool value);
+    //void sendDatas(const char *dataToSend);
+    //void setLabel(const char *labelName,const char *value);
+    //void setEnable(const char *labelName,const bool value);
+    //void setVisible(const char *labelName,const bool value);
 
-    void setDate(const char *labelName,int annee, int mois,int jour, int heure,int minute,int sec=0);
+    //void setDate(const char *labelName,int annee, int mois,int jour, int heure,int minute,int sec=0);
 
-    void setPosition(const char *labelName,int posX,int posY);
-    void setColorBackground(const char *labelName,unsigned int r,unsigned int g,unsigned int b,unsigned int alpha);
+    //void setPosition(const char *labelName,int posX,int posY);
+    //void setColorBackground(const char *labelName,unsigned int r,unsigned int g,unsigned int b,unsigned int alpha);
 };
 
 #endif

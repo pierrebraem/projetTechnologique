@@ -472,10 +472,6 @@ int main(int argc, char **argv)
 
                     addon[NbreAddon] = create_plugIns[NbrePlugIns]();
 
-                    //addon[NbreAddon]->DemarrageMqtt();
-                    //addon[NbreAddon]->Publish("Hello world!");
-                    //addon[NbreAddon]->ArretMqtt();
-
                     vRet = addon[NbreAddon]->init(fileName, &stone);
                     cout << vRet << "\n";
                     if (vRet < 0 ){
