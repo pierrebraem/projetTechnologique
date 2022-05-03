@@ -39,7 +39,7 @@ public:
     std::string xmlDescription;
 
     //Déclaration de la classe "myMqtt"
-    class myMqtt *mqtt;
+    //class myMqtt *mqtt;
 
     virtual double area() const {
         return side_length_ * side_length_ * sqrt(3) / 2;
@@ -80,6 +80,13 @@ public:
         //Récupère l'historique de la BDD
 
         return 0;
+    }
+
+    void testMQTT(){
+        myMqtt *mqtt = new myMqtt("test", "rasp/test", "172.16.226.101", 1883);
+        mqtt->send_msg("Hello");
+        mqtt->receive_msg();
+        delete mqtt;
     }
 
     //Récupère du MQTT le statut actuel du capteur

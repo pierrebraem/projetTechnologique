@@ -47,9 +47,6 @@
 #include "rapidxml_utils.hpp"
 #include "stone.h"
 
-#include "MySerial.h"
-MySerial *mySerial;
-
 namespace fs = std::filesystem;
 
 // Menu utilisé pour tester les fonctionalités implantées
@@ -472,6 +469,7 @@ int main(int argc, char **argv)
                     addon[NbreAddon] = create_plugIns[NbrePlugIns]();
 
                     vRet = addon[NbreAddon]->init(fileName, stone);
+                    addon[NbreAddon]->testMQTT();
                     cout << vRet << "\n";
                     if (vRet < 0 ){
                         cerr << "Initialisation addon failed: " << vRet << '\n';

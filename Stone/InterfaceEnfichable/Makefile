@@ -7,11 +7,11 @@
 
 all: example run
 
-example: main.cpp panelAddon.hpp plugInMouvement.so MySerial.cpp stone.cpp
-	g++	-fPIC -std=c++2a -o example main.cpp MySerial.cpp stone.cpp -ldl -lpthread
+example: main.cpp panelAddon.hpp plugInMouvement.so MySerial.cpp stone.cpp myMqtt.cpp
+	g++	-fPIC -std=c++2a -o example main.cpp MySerial.cpp stone.cpp myMqtt.cpp -ldl -lpthread -lmosquittopp
 
-plugInMouvement.so: plugInMouvement.cpp panelAddon.hpp stone.cpp MySerial.cpp
-	$(CXX) $(CXXFLAGS) -fPIC -shared -o plugInMouvement.so plugInMouvement.cpp stone.cpp MySerial.cpp
+plugInMouvement.so: plugInMouvement.cpp panelAddon.hpp stone.cpp MySerial.cpp myMqtt.cpp
+	$(CXX) $(CXXFLAGS) -fPIC -shared -o plugInMouvement.so plugInMouvement.cpp stone.cpp MySerial.cpp myMqtt.cpp
 
 clean:
 #	rm -f example plugInFumee.so
