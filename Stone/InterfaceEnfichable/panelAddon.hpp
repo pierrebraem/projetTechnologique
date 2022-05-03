@@ -1,3 +1,19 @@
+/**
+    Classe panelAddon : Cette classe est la classe mère de tous les plugins. Elle stock les fonctions nécessaires aux plugins
+    @file panelAddon.hpp
+    @author Pierre Braem
+    @version 1.0 2022-05-01
+    
+    Historique des versions   
+                            Versions  Date        Auteur      Description
+                            1.0       2022-05-01  Pierre      Première version de la classe
+                            
+                            
+    librairies utilisées :
+    - myMqtt
+    - stone
+**/
+
 #ifndef PANNEL_ADDON_HPP
 #define PANNEL_ADDON_HPP
 #include <string>

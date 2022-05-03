@@ -1,3 +1,29 @@
+/**
+    Classe plugInMouvement : Classe permettant de gérer les commandes du sensor de mouvement sur l'écran Stone
+    @file plugInMouvement.cpp
+    @author Pierre Braem
+    @version 1.0 2022-05-01
+    
+    Historique des versions   
+                            Versions  Date        Auteur      Description
+                            1.0       2022-05-01  Pierre      Première version de la classe
+                            
+                            
+    librairies utilisées :
+    - myMqtt
+    - Rapidxml
+    - rapidxml_utils
+    - MySerial
+    - PanelAddon
+    
+    Exemple d'utilisation 
+        //Définition 
+            #include "panelAddon.hpp"
+            class plugInMouvement: public panelAddon {
+                public:
+                
+                private:
+**/
 #include "panelAddon.hpp"
 #include "rapidxml.hpp"
 #include "rapidxml_utils.hpp"

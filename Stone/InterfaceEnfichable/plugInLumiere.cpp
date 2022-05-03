@@ -1,3 +1,30 @@
+/**
+    Classe plugInLumiere : Classe permettant de gérer les commandes de la lumière sur l'écran Stone
+    @file plugInLumiere.cpp
+    @author Pierre Braem
+    @version 1.0 2022-05-01
+    
+    Historique des versions   
+                            Versions  Date        Auteur      Description
+                            1.0       2022-05-01  Pierre      Première version de la classe
+                            
+                            
+    librairies utilisées :
+    - myMqtt
+    - Rapidxml
+    - rapidxml_utils
+    - MySerial
+    - PanelAddon
+    
+    Exemple d'utilisation 
+        //Définition 
+            #include "panelAddon.hpp"
+            class plugInLumiere: public panelAddon {
+                public:
+                
+                private:
+**/
+
 #include "panelAddon.hpp"
 #include "rapidxml.hpp"
 #include "rapidxml_utils.hpp"
