@@ -28,15 +28,12 @@
 #include "rapidxml.hpp"
 #include "rapidxml_utils.hpp"
 #include "myMqtt.hpp"
-#include "MySerial.h"
+#include "stone.h"
 #include <cmath>
 #include <string>
 
 class plugInMouvement : public panelAddon{
 public:
-    //Déclaration de classe "MySerial"
-    MySerial *mySerial;
-
     //Déclaration variable XML
     std::string xmlNom;
     std::string xmlDescription;
@@ -72,14 +69,7 @@ public:
         }
 
         //Met les informations dans l'écran Stone 
-        char cmdFormatNom[99];
-        strcpy(cmdFormatNom, "ST<{\"cmd_code\":\"set_text\",\"type\":\"label\",\"widget\":\"nomdectecteurlabel\",\"text\":\"test\"}>ET");
-        //std::cout << cmdFormatNom << "\n";
-        //mySerial->writeIt((char*) cmdFormatNom));
-        char cmdFormatDescription[99];
-        strcpy(cmdFormatDescription, "ST<{\"cmd_code\":\"set_text\",\"type\":\"label\",\"widget\":\"description\",\"text\":\"test\"}>ET");
-        //std::cout << cmdFormatDescription << "\n";
-        //mySerial->writeIt((char*) cmdFormatDescription);
+        stone->initplugInMouvement();
 
         /* std::cout << xmlNom << "\n";
         std::cout << xmlDescription << "\n";
@@ -93,24 +83,24 @@ public:
     }
 
     //Récupère du MQTT le statut actuel du capteur
-    void lireMouvement(){
+    /* void lireMouvement(){
         mqtt = new myMqtt("mouvement", "zigbee2mqtt/0x00124b002342c261/get", "172.16.206.200", 1883);
         bool set = mqtt->receive_msg();
-        if(set == "ON"){
-            cmdFormatOn[99];
+        if(set == false){
+            char cmdFormatOn[99];
             strcpy(cmdFormatOn, "ST<{\"cmd_code\":\"set_text\",\"type\":\"label\",\"widget\":\"lecturecadre\",\"text\":\"ON\"}>ET");
             mySerial->writeIt((char* ) cmdFormatOn);
         }
         else{
-            cmdFormatOff[99];
+            char cmdFormatOff[99];
             strcpy(cmdFormatOff, "ST<{\"cmd_code\":\"set_text\",\"type\":\"label\",\"widget\":\"lecturecadre\",\"text\":\"OFF\"}>ET");
             mySerial->writeIt((char* ) cmdFormatOff);
         }
         delete mqtt;
-    }
+    } */
 
     //Charge le capteur de mouvement sélectionner
-    void ChargerMov(const char* mov, std::string filename, Stone* stone){
+    /* void ChargerMov(const char* mov, std::string filename, Stone* stone){
         //Voir ce que la tablette retourne lorsqu'on appuie sur un bouton
         std::string idMov; //Variable temporaire
         rapidxml::xml_node<> *root_node;
@@ -138,7 +128,7 @@ public:
         }
 
         //Récupère l'historique de la base de données
-    }
+    } */
 };
 
 extern "C" panelAddon* create(){

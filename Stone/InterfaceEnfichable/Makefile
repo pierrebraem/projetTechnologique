@@ -10,8 +10,8 @@ all: example run
 example: main.cpp panelAddon.hpp plugInMouvement.so MySerial.cpp stone.cpp
 	g++	-fPIC -std=c++2a -o example main.cpp MySerial.cpp stone.cpp -ldl -lpthread
 
-plugInMouvement.so: plugInMouvement.cpp panelAddon.hpp
-	$(CXX) $(CXXFLAGS) -fPIC -shared -o plugInMouvement.so plugInMouvement.cpp
+plugInMouvement.so: plugInMouvement.cpp panelAddon.hpp stone.cpp MySerial.cpp
+	$(CXX) $(CXXFLAGS) -fPIC -shared -o plugInMouvement.so plugInMouvement.cpp stone.cpp MySerial.cpp
 
 clean:
 #	rm -f example plugInFumee.so

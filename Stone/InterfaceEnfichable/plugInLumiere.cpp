@@ -89,7 +89,7 @@ class plugInLumiere : public panelAddon{
         return 0;
     }
 
-    void ChargerLamp(const char* lamp, std::string filename, Stone* stone){
+    /* void ChargerLamp(const char* lamp, std::string filename, Stone* stone){
         //Voir ce que la tablette retourne lorsqu'on appuie sur un bouton
         std::string idlamp; //Variable temporaire
         rapidxml::xml_node<> *root_node;
@@ -117,5 +117,5 @@ class plugInLumiere : public panelAddon{
         }
 
         //Récupère l'historique de la base de données
-    }
+    } */
 }

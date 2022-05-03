@@ -62,7 +62,7 @@ destroy_t* destroy_plugIns[1024];
 panelAddon* addon[1024];
 int NbrePlugIns = 0;
 int NbreAddon = 0;
-static Stone stone; //todo
+static Stone *stone;
 
 // Structure local utilisés pour garder les informations lues de l'écran
 struct datasRead
@@ -97,7 +97,7 @@ void menu()
     char cmdFormat2[99];
     strcpy(cmdFormat2, "ST<{\"cmd_code\":\"sys_version\",\"type\":\"system\"}>ET");
     std::cout << cmdFormat2 << "\n";
-    mySerial->writeIt((char *)cmdFormat2);
+    stone->writeIt((char *)cmdFormat2);
     menu();
   }
 
@@ -106,7 +106,7 @@ void menu()
     char cmdFormat2[99];
     strcpy(cmdFormat2, "ST<{\"cmd_code\":\"sys_hello\",\"type\":\"system\"}>ET");
     std::cout << cmdFormat2 << "\n";
-    mySerial->writeIt((char *)cmdFormat2);
+    stone->writeIt((char *)cmdFormat2);
     menu();
   }
 
@@ -115,7 +115,7 @@ void menu()
     char cmdFormat2[99];
     strcpy(cmdFormat2, "ST<{\"cmd_code\":\"sys_reboot\",\"type\":\"system\"}>ET");
     std::cout << cmdFormat2 << "\n";
-    mySerial->writeIt((char *)cmdFormat2);
+    stone->writeIt((char *)cmdFormat2);
     menu();
   }
 
@@ -124,7 +124,7 @@ void menu()
     char cmdFormat2[99];
     strcpy(cmdFormat2, "ST<{\"cmd_code\":\"set_date\",\"type\":\"digit_clock\",\"widget\":\"digit_clock\",\"date\":\"2022-02-09 13:58:30\"}>ET");
     std::cout << cmdFormat2 << "\n";
-    mySerial->writeIt((char *)cmdFormat2);
+    stone->writeIt((char *)cmdFormat2);
     menu();
   }
   if (selection == 5)
@@ -132,7 +132,7 @@ void menu()
     char cmdFormat2[99];
     strcpy(cmdFormat2, "ST<{\"cmd_code\":\"set_text\",\"type\":\"label\",\"widget\":\"nomdectecteurlabel\",\"text\":\"test\"}>ET");
     std::cout << cmdFormat2 << "\n";
-    mySerial->writeIt((char *)cmdFormat2);
+    stone->writeIt((char *)cmdFormat2);
     menu();
   }
   if (selection == 6)
@@ -140,7 +140,7 @@ void menu()
     char cmdFormat2[99];
     strcpy(cmdFormat2, "ST<{\"cmd_code\":\"set_xy\",\"type\":\"label\",\"widget\":\"label1\",\"x\":150,\"y\":150}>ET");
     std::cout << cmdFormat2 << "\n";
-    mySerial->writeIt((char *)cmdFormat2);
+    stone->writeIt((char *)cmdFormat2);
     menu();
   }
 
@@ -149,13 +149,13 @@ void menu()
     char cmdFormat2[99];
     strcpy(cmdFormat2, "ST<{\"cmd_code\":\"set_rotation\",\"type\":\"image\",\"widget\":\"logocegep\",\"rotation\":90}>ET");
     std::cout << cmdFormat2 << "\n";
-    mySerial->writeIt((char *)cmdFormat2);
+    stone->writeIt((char *)cmdFormat2);
 
     sleep(200);
 
     strcpy(cmdFormat2, "ST<{\"cmd_code\":\"set_rotation\",\"type\":\"image\",\"widget\":\"logocegep\",\"rotation\":150}>ET");
     std::cout << cmdFormat2 << "\n";
-    mySerial->writeIt((char *)cmdFormat2);
+    stone->writeIt((char *)cmdFormat2);
 
     menu();
   }
@@ -238,37 +238,37 @@ datasRead getValidsDatasIfExists()
   rd.type = 0;
 
   // Essai de trouver un S
-  n = mySerial->readIt((char *)data, 1);
+  n = stone->readIt((char *)data, 1);
   while ((n == 1) && (data[0] != 'S'))
   {
-    n = mySerial->readIt((char *)data, 1);
+    n = stone->readIt((char *)data, 1);
   };
   if (n <= 0)
     return (rd);
   // std::cout << "S FOUND\n";
 
   // Essai de trouver un T
-  n = mySerial->readIt((char *)data, 1);
+  n = stone->readIt((char *)data, 1);
   while ((n == 1) && (data[0] != 'T'))
   {
-    n = mySerial->readIt((char *)data, 1);
+    n = stone->readIt((char *)data, 1);
   };
   if (n <= 0)
     return (rd);
   // std::cout << "T FOUND\n";
 
   // Essai de trouver un <T>
-  n = mySerial->readIt((char *)data, 1);
+  n = stone->readIt((char *)data, 1);
   while ((n == 1) && (data[0] != '<'))
   {
-    n = mySerial->readIt((char *)data, 1);
+    n = stone->readIt((char *)data, 1);
   };
   if (n <= 0)
     return (rd);
   // std::cout << "< FOUND\n";
 
   // Lecture de la commande et de la longeur de la donnee
-  n = mySerial->readIt(&shortData.shortDataCommand.c.c1, 4);
+  n = stone->readIt(&shortData.shortDataCommand.c.c1, 4);
 
   // Inverser certaines données
   std::swap(shortData.shortDataCommand.c.c2, shortData.shortDataCommand.c.c1);
@@ -278,7 +278,7 @@ datasRead getValidsDatasIfExists()
   longeur = shortData.shortDataLongeur.hexaShort;
 
   // Lecture Data
-  n = mySerial->readIt((char *)data, longeur);
+  n = stone->readIt((char *)data, longeur);
 
   switch (commande)
   {
@@ -290,7 +290,7 @@ datasRead getValidsDatasIfExists()
 
     // Lire les données suivantes : TAIL (3 char ">ET") et CRC (Hexa16)
     char TailDatas[5];
-    n = mySerial->readIt(TailDatas, 5);
+    n = stone->readIt(TailDatas, 5);
     // Check if TAIL (>ET) is OK
     if ((n != 5) || (TailDatas[0] != '>') || (TailDatas[1] != 'E') || (TailDatas[2] != 'T'))
       return (rd);
@@ -318,7 +318,7 @@ datasRead getValidsDatasIfExists()
 
     // Lire les données suivantes : TAIL (3 char ">ET") et CRC (Hexa16)
     char TailDatas[5];
-    n = mySerial->readIt(TailDatas, 5);
+    n = stone->readIt(TailDatas, 5);
 
     // Check if TAIL (>ET) is OK
     if ((n != 5) || (TailDatas[0] != '>') || (TailDatas[1] != 'E') || (TailDatas[2] != 'T'))
@@ -347,9 +347,8 @@ void fonctionLoop()
 {
   while (true)
   {
-
     datasRead rd = getValidsDatasIfExists();
-    // std::cout << "GData : " << intToHexa(abs(rd.id)) << " " << rd.command << " " << rd.name << " " << rd.type << "\n";
+    //std::cout << "GData : " << intToHexa(abs(rd.id)) << " " << rd.command << " " << rd.name << " " << rd.type << "\n";
     switch (rd.id)
     {
 
@@ -399,10 +398,10 @@ int main(int argc, char **argv)
   strcpy(serialPort, "/dev/");
   strcat(serialPort, argv[1]);
 
-  mySerial = new MySerial(serialPort);
+  stone = new Stone(serialPort);
 
   char ComPortName[] = {"/dev/" };
-  int valRet = stone.init(ComPortName, 115200);
+  int valRet = stone->init(ComPortName, 115200);
   if(valRet==-1){
     return(0);
   }
@@ -467,12 +466,12 @@ int main(int argc, char **argv)
                 fileName += entry.path().filename().replace_extension(".xml");
                 //fileName += std::to_string(jj);
                 
-                if(fs::exists(fileName)){
+                  if(fs::exists(fileName)){
                     cout << "File exist: " << fileName << "\n";
 
                     addon[NbreAddon] = create_plugIns[NbrePlugIns]();
 
-                    vRet = addon[NbreAddon]->init(fileName, &stone);
+                    vRet = addon[NbreAddon]->init(fileName, stone);
                     cout << vRet << "\n";
                     if (vRet < 0 ){
                         cerr << "Initialisation addon failed: " << vRet << '\n';
@@ -492,14 +491,10 @@ int main(int argc, char **argv)
       cout << "The area is: " << addon[i]->area() << '\n';
     }
 
-    /* for(int i=0; i<NbreAddon; i++){
-      cout << "Nombre: " << addon[i]->nombre1() << '\n'; 
-    } */
-
   //setUpStonePanel();
 
   //Lancer un tread pour lire les données de la tablette Stone
-  std::thread first (fonctionLoop);
+  std::thread first (fonctionLoop); //Met en erreur l'interface enfichable
 
   menu();
 
