@@ -27,7 +27,7 @@ public:
     int init(char *comPort,uint speed = 115200);
     dataRead getValidsDatasIfExists();
 
-    void initplugInMouvement();
+    void setTexte(const char* label, const char* texte);
 };
 
 #endif

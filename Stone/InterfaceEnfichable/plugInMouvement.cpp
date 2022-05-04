@@ -69,7 +69,8 @@ public:
         }
 
         //Met les informations dans l'écran Stone 
-        stone->initplugInMouvement();
+        stone->setTexte("nomdectecteurlabel", xmlNom.c_str());
+        stone->setTexte("descriptioncadre", xmlDescription.c_str());
 
         /* std::cout << xmlNom << "\n";
         std::cout << xmlDescription << "\n";
@@ -82,16 +83,22 @@ public:
         return 0;
     }
 
-    void testMQTT(){
+    /* void testMQTT(){
         myMqtt *mqtt = new myMqtt("test", "rasp/test", "172.16.226.101", 1883);
         mqtt->send_msg("Hello");
-        mqtt->receive_msg();
+        while(1){
+            if(mqtt->receive_msg() == 1){
+                //std::cout << "Message reçu du broker \n";
+            }
+
+            sleep(1);
+        }
         delete mqtt;
-    }
+    } */
 
     //Récupère du MQTT le statut actuel du capteur
     /* void lireMouvement(){
-        mqtt = new myMqtt("mouvement", "zigbee2mqtt/0x00124b002342c261/get", "172.16.206.200", 1883);
+        mqtt = new myMqtt("mouvement", "zigbee2mqtt/0x00124b002342c261/get", "172.16.226.101", 1883);
         bool set = mqtt->receive_msg();
         if(set == false){
             char cmdFormatOn[99];
