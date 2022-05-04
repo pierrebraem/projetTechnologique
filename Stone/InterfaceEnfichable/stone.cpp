@@ -4,12 +4,12 @@
 Stone::Stone(std::string portName):MySerial{portName}{};
 
 void Stone::setTexte(const char* label, const char* texte){
+    std::stringstream ss;
     char cmd[99];
-    strcpy(cmd, "ST<{\"cmd_code\":\"set_text\",\"type\":\"label\",\"widget\":\"");
-    strcpy(cmd, label);
-    strcpy(cmd, "\", \"text\":\"");
-    strcpy(cmd, texte);
-    strcpy(cmd, "\"}>ET");
+    ss << "ST<{\"cmd_code\":\"set_text\",\"type\":\"label\",\"widget\":\"" << label << "\",\"text\":\"" << texte << "\"}>ET";
+    std::string commande = ss.str();
+    strcpy(cmd, commande.c_str());
+    std::cout << cmd << " \n";
     writeIt((char*) cmd);
 }
 
