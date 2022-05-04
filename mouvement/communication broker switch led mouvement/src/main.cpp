@@ -66,7 +66,6 @@ void reconnect(){
   }
 }
 
-//Cette fonction permet de formet le message
 void callback(char* topic, byte* payload, unsigned int length){
   Serial.print("Message [");
   Serial.print(topic);
