@@ -1,3 +1,31 @@
+/** Copyright (C) 2022 Pierre Braem
+ * All rights reserved.
+ *
+ * Projet technologique
+ * Ecole du Web
+ * Cours Projet technologique (c)2022
+ * 
+ * Description : Ce programme permet d'envoyer le statut du capteur de mouvement au broker afin
+ * D'allumer ou d'eteindre une LED.
+ * 
+    @file     main.cpp
+    @author   Pierre Braem
+    @version  1.0 2022-05-03
+
+    [env:esp32doit-devkit-v1]
+    platform = espressif32
+    board = esp32doit-devkit-v1
+    framework = arduino
+
+Librairie utilisée :
+    pubsubclient //Cette librairie permet de gérer la connexion Wifi de l'ESP32.
+                  Mais aussi à l'envoie et la réception des données entre le broker et l'ESP32.
+
+Configuration du système :
+  Adresse IP du broker : 172.16.228.220:1883
+  Capteur de mouvement :
+    GPIO : 15 
+ * */
 #include <Arduino.h>
 #include <WiFi.h>
 #include <PubSubClient.h>
@@ -7,7 +35,7 @@ const char *ssid = "EcoleDuWeb2.4g";
 const char *password = "EcoleDuWEB";
 
 //MQTT broker config
-const char *mqtt_server = "172.16.206.200";
+const char *mqtt_server = "172.16.228.220";
 unsigned int mqtt_port = 1883;
 const char *mqttUser = "";
 const char *mqttPassword = "";
@@ -19,13 +47,16 @@ int pin_data = 15;
 WiFiClient askClient;
 PubSubClient client(askClient);
 
+//Cette fonction permet d'informer l'utilisateur sur la connexion au MQTT.
 void reconnect(){
   //Boucle jusqu'à qu'il se reconnecte
   while(!client.connected()){
     Serial.print("Tentative de connexion au MQTT...");
+    //Si la connection a été établie, alors dire à l'utilisateur que la connexion a été réussie.
     if(client.connect("ESP32Client", mqttUser, mqttPassword)){
       Serial.println("Connecté au MQTT");
     }
+    //Sinon, afficher le message d'erreur et prévenir l'utilisateur qu'une nouvelle tentative est planifiée.
     else{
       Serial.print("failed, rc=");
       Serial.print(client.state());
@@ -35,7 +66,7 @@ void reconnect(){
   }
 }
 
-
+//Cette fonction permet de formet le message
 void callback(char* topic, byte* payload, unsigned int length){
   Serial.print("Message [");
   Serial.print(topic);
@@ -46,12 +77,14 @@ void callback(char* topic, byte* payload, unsigned int length){
   Serial.println();
 }
 
+//Cette fonction permet de publier le message sur le broker.
 void Publication(char* message){
  Serial.println("Publication des données vers le broker");
   char mqtt_payload[30] = "";
   snprintf(mqtt_payload, 30, message);
   Serial.print("Publication du message: ");
   Serial.println(mqtt_payload);
+  //Publie le message "mqtt_payload" sur le sujet "zigbee2mqtt/0x00124b002342c261/set"
   client.publish("zigbee2mqtt/0x00124b002342c261/set", mqtt_payload);
   Serial.println("Données publiées");
 }
