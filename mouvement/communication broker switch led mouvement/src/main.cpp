@@ -22,7 +22,7 @@ Librairie utilisée :
                   Mais aussi à l'envoie et la réception des données entre le broker et l'ESP32.
 
 Configuration du système :
-  Adresse IP du broker : 172.16.228.220:1883
+  Adresse IP du broker : 172.16.226.101:1883
   Capteur de mouvement :
     GPIO : 15 
  * */
@@ -35,7 +35,7 @@ const char *ssid = "EcoleDuWeb2.4g";
 const char *password = "EcoleDuWEB";
 
 //MQTT broker config
-const char *mqtt_server = "172.16.228.220";
+const char *mqtt_server = "172.16.226.101";
 unsigned int mqtt_port = 1883;
 const char *mqttUser = "";
 const char *mqttPassword = "";
@@ -90,8 +90,8 @@ void Publication(char* message){
 
 void setup() {
   //Connexion au Wifi
-  Serial.begin(115200);
-  //Serial.begin(9600);
+  //Serial.begin(115200);
+  Serial.begin(9600);
   Serial.print("Connection au WiFi : ");
   Serial.println(ssid);
 
