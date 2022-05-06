@@ -31,6 +31,7 @@
 #include "stone.h"
 #include <cmath>
 #include <string>
+#include <sstream>
 
 class plugInMouvement : public panelAddon{
 public:
@@ -60,7 +61,7 @@ public:
 
         //Met tous les noms des senseurs dans un tableau afin de les afficher dans des boutons
         int i = 0;
-        std::string xmlNoms[9];
+        char* xmlNoms[9];
         for(Mouvement_node; Mouvement_node; Mouvement_node = Mouvement_node->next_sibling()){
             if(i < 9){
                 xmlNoms[i] = Mouvement_node->first_node("Peripherique")->first_node("Nom")->value();
@@ -72,11 +73,17 @@ public:
         stone->setTexte("nomdectecteurlabel", xmlNom.c_str());
         stone->setTexte("descriptioncadre", xmlDescription.c_str());
 
-        /* std::cout << xmlNom << "\n";
-        std::cout << xmlDescription << "\n";
-        for(std::string x : xmlNoms){
-            std::cout << x << "\n";
-        } */
+        for(int j = 0; i > j; j++){
+            int number = j + 1;
+            std::stringstream strs;
+            std::string s;
+            strs << number;
+            std::string ch = strs.str();
+
+            s += "bouton_mov";
+            s += ch;
+            stone->setButton(s.c_str(), xmlNoms[j]);
+        }
 
         //Récupère l'historique de la BDD
 

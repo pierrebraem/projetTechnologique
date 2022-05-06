@@ -6,7 +6,7 @@
         <Evenement>Début d'une présence détectée</Evenement>
         <Peripherique>
             <Nom>Mov03</Nom>
-            <Description>Situé dans le local C087</Description>
+            <Description>Situé dans le local C089</Description>
         </Peripherique>
     </Mouvement>
     <Mouvement id="Mov05">

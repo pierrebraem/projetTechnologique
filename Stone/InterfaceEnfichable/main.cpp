@@ -76,7 +76,6 @@ void menu()
   std::cout << std::endl;
   selection = 0;
   std::cout << " Please choose from the following options - \n";
-  std::cout << " 8. Publish mqtt. \n";
   std::cout << " 7. rotation. \n";
   std::cout << " 6. xy. \n";
   std::cout << " 5. labelTest. \n";
@@ -457,7 +456,7 @@ int main(int argc, char **argv)
 
             //Trouver tous les fichiers Xml correspendants (maximum de 10 pour l'instant)
             int vRet = 0;
-            for(int jj=0; jj<10; jj++){
+            for(int jj=0; jj<1; jj++){
                 std::string fileName = entry.path().parent_path();
                 fileName += std::string("/");
                 fileName += entry.path().filename().replace_extension(".xml");

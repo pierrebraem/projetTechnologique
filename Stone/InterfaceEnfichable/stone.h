@@ -29,6 +29,7 @@ public:
     dataRead getValidsDatasIfExists();
 
     void setTexte(const char* label, const char* texte);
+    void setButton(const char* label, const char* texte);
 };
 
 #endif
