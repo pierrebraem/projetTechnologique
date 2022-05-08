@@ -208,11 +208,9 @@ void fonctionLoop()
     }
 
     if (rd.id < 0){
-
-
-      std::cout << abs(rd.id);
-      std::cout << rd.name;
-      std::cout << "Data received ( id: : " << intToHexa(abs(rd.id)) << "  Command: " << rd.command << " Type: " << rd.type << ")\n";
+      //std::cout << abs(rd.id);
+      std::cout << rd.name << " \n";
+      //std::cout << "Data received ( id: : " << intToHexa(abs(rd.id)) << "  Command: " << rd.command << " Type: " << rd.type << ")\n";
     }
 
     if (rd.id == 0){
@@ -297,7 +295,6 @@ int main(int argc, char **argv)
                 std::string fileName = entry.path().parent_path();
                 fileName += std::string("/");
                 fileName += entry.path().filename().replace_extension(".xml");
-                //fileName += std::to_string(jj);
                 
                   if(fs::exists(fileName)){
                     cout << "File exist: " << fileName << "\n";
@@ -305,7 +302,6 @@ int main(int argc, char **argv)
                     addon[NbreAddon] = create_plugIns[NbrePlugIns]();
 
                     vRet = addon[NbreAddon]->init(fileName, stone);
-                    //addon[NbreAddon]->testMQTT();
                     cout << vRet << "\n";
                     if (vRet < 0 ){
                         cerr << "Initialisation addon failed: " << vRet << '\n';
@@ -325,10 +321,8 @@ int main(int argc, char **argv)
       cout << "The area is: " << addon[i]->area() << '\n';
     }
 
-  //setUpStonePanel();
-
   //Lancer un tread pour lire les données de la tablette Stone
-  std::thread first (fonctionLoop); //Met en erreur l'interface enfichable
+  std::thread first (fonctionLoop);
 
   menu();
 

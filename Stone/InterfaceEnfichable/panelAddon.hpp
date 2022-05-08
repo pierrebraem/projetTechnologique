@@ -34,14 +34,14 @@ public:
     }
 
     virtual double area() const = 0;
-    virtual int init(std::string filename, Stone* stone){};
-
+    
     //Fonction pour le capteur de mouvement
+    virtual int init(std::string filename, Stone* stone){};
     virtual void lireMouvement(){};
-    virtual void ChargerMov(const char* mov, std::string filename, Stone* stone){};
+    virtual void ChangerMov(const char* mov, std::string filename, Stone* stone){};
 
     //Fonction pour le controle de lumière
-    virtual void ChargerLamp(const char* lamp, std::string filename, Stone* stone){};
+    virtual void ChangerLamp(const char* lamp, std::string filename, Stone* stone){};
 
     //virtual void testMQTT(){};
 };

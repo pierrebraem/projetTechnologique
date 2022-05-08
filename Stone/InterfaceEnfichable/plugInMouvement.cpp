@@ -38,9 +38,7 @@ public:
     //Déclaration variable XML
     std::string xmlNom;
     std::string xmlDescription;
-
-    //Déclaration de la classe "myMqtt"
-    //class myMqtt *mqtt;
+    char* xmlNoms[9];
 
     virtual double area() const {
         return side_length_ * side_length_ * sqrt(3) / 2;
@@ -61,7 +59,6 @@ public:
 
         //Met tous les noms des senseurs dans un tableau afin de les afficher dans des boutons
         int i = 0;
-        char* xmlNoms[9];
         for(Mouvement_node; Mouvement_node; Mouvement_node = Mouvement_node->next_sibling()){
             if(i < 9){
                 xmlNoms[i] = Mouvement_node->first_node("Peripherique")->first_node("Nom")->value();
@@ -90,19 +87,6 @@ public:
         return 0;
     }
 
-    /* void testMQTT(){
-        myMqtt *mqtt = new myMqtt("test", "rasp/test", "172.16.226.101", 1883);
-        mqtt->send_msg("Hello");
-        while(1){
-            if(mqtt->receive_msg() == 1){
-                //std::cout << "Message reçu du broker \n";
-            }
-
-            sleep(1);
-        }
-        delete mqtt;
-    } */
-
     //Récupère du MQTT le statut actuel du capteur
     /* void lireMouvement(){
         mqtt = new myMqtt("mouvement", "zigbee2mqtt/0x00124b002342c261/get", "172.16.226.101", 1883);
@@ -121,35 +105,9 @@ public:
     } */
 
     //Charge le capteur de mouvement sélectionner
-    /* void ChargerMov(const char* mov, std::string filename, Stone* stone){
-        //Voir ce que la tablette retourne lorsqu'on appuie sur un bouton
-        std::string idMov; //Variable temporaire
-        rapidxml::xml_node<> *root_node;
-        rapidxml::file<> xmlFile(filename.c_str());
-        rapidxml::xml_document<> doc;
-        doc.parse<0>(xmlFile.data());
-
-        root_node = doc.first_node("Mouvements");
-        rapidxml::xml_node<> *Mouvement_node = root_node->first_node("Mouvement");
-        for(Mouvement_node; Mouvement_node; Mouvement_node = Mouvement_node->next_sibling()){
-            if(Mouvement_node->first_attribute("id")->value == idMov){
-                xmlNom = Mouvement_node->first_node("Peripherique")->first_node("Nom")->value();
-                xmlDescription = Mouvement_node->first_node("Peripherique")->first_node("Description")->value();
-                char cmdFormatNom[99];
-                strcpy(cmdFormatNom, "ST<{\"cmd_code\":\"set_text\",\"type\":\"label\",\"widget\":\"description\",\"text\":\"");
-                strcpy(cmdFormatNom, xmlNom);
-                strcpy(cmdFormatNom, "\"}>ET");
-                mySerial->writeIt((char*) cmdFormatNom));
-                char cmdFormatDescription[99];
-                strcpy(cmdFormatDescription, "ST<{\"cmd_code\":\"set_text\",\"type\":\"label\",\"widget\":\"description\",\"text\":\"");
-                strcpy(cmdFormatDescription, xmlDescription);
-                strcpy(cmdFormatDescription, "\"}>ET");
-                mySerial->writeIt((char*) cmdFormatDescription);
-            }
-        }
-
-        //Récupère l'historique de la base de données
-    } */
+    void ChangerMov(char* mov, std::string filename, Stone* stone){
+        std::cout << mov[10] << " \n";
+    }
 };
 
 extern "C" panelAddon* create(){

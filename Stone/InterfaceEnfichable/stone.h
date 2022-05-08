@@ -22,6 +22,7 @@ class Stone : public MySerial
 using MySerial::MySerial;
 private:
 
+
 public:
     Stone(std::string portName);
     ~Stone(){};
