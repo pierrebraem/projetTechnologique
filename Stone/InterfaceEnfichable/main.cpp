@@ -324,8 +324,12 @@ int main(int argc, char **argv)
   //Lancer un tread pour lire les données de la tablette Stone
   std::thread first (fonctionLoop);
 
-  menu();
+  while(true){
+    addon[0]->lireMouvement();
+    sleep(5);
+  }
 
+  menu();
 
   //Détruire les addOns
   for(int i=0; i<NbreAddon; i++) {

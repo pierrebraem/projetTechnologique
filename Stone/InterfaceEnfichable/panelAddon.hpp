@@ -42,8 +42,6 @@ public:
 
     //Fonction pour le controle de lumière
     virtual void ChangerLamp(const char* lamp, std::string filename, Stone* stone){};
-
-    //virtual void testMQTT(){};
 };
 
 // the types of the class factories

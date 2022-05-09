@@ -40,6 +40,9 @@ public:
     std::string xmlDescription;
     char* xmlNoms[9];
 
+    //Déclaration variable mqtt
+    myMqtt* mqtt = new myMqtt("mouvement", "zigbee2mqtt/0x00124b002342c261", "172.16.226.101", 1883);
+
     virtual double area() const {
         return side_length_ * side_length_ * sqrt(3) / 2;
     }
@@ -88,21 +91,15 @@ public:
     }
 
     //Récupère du MQTT le statut actuel du capteur
-    /* void lireMouvement(){
-        mqtt = new myMqtt("mouvement", "zigbee2mqtt/0x00124b002342c261/get", "172.16.226.101", 1883);
+    void lireMouvement(){
         bool set = mqtt->receive_msg();
-        if(set == false){
-            char cmdFormatOn[99];
-            strcpy(cmdFormatOn, "ST<{\"cmd_code\":\"set_text\",\"type\":\"label\",\"widget\":\"lecturecadre\",\"text\":\"ON\"}>ET");
-            mySerial->writeIt((char* ) cmdFormatOn);
+        if(set == 0){
+            
         }
         else{
-            char cmdFormatOff[99];
-            strcpy(cmdFormatOff, "ST<{\"cmd_code\":\"set_text\",\"type\":\"label\",\"widget\":\"lecturecadre\",\"text\":\"OFF\"}>ET");
-            mySerial->writeIt((char* ) cmdFormatOff);
+            std::cout << "une erreur s'est produite" << " \n";
         }
-        delete mqtt;
-    } */
+    }
 
     //Charge le capteur de mouvement sélectionner
     void ChangerMov(char* mov, std::string filename, Stone* stone){

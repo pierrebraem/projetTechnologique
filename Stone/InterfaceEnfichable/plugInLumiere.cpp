@@ -35,15 +35,9 @@
 
 class plugInLumiere : public panelAddon{
     public:
-    //Déclaration de classe "MySerial"
-    MySerial *mySerial;
-
     //Déclaration variable XML
     std::string xmlNom;
     std::string xmlDescription;
-
-    //Déclaration de la classe "myMqtt"
-    class myMqtt *mqtt;
 
     //Va afficher la première lumière dans la liste XML lors de l'affichage de la page
     int init(std::string filename, Stone* stone){
