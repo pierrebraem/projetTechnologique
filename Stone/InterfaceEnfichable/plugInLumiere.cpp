@@ -44,7 +44,7 @@ class plugInLumiere : public panelAddon{
     virtual double area() const {
         return side_length_ * side_length_ * sqrt(3) / 2;
     }
-    
+
     //Va afficher la première lumière dans la liste XML lors de l'affichage de la page
     int init(std::string filename, Stone* stone){
         rapidxml::xml_node<> *root_node;
@@ -88,6 +88,10 @@ class plugInLumiere : public panelAddon{
 
         return 0;
     }
+
+    void lumiereONOFF(){
+        
+    }
 };
 
 extern "C" panelAddon* create(){
@@ -96,34 +100,4 @@ extern "C" panelAddon* create(){
 
 extern "C" void destroy(panelAddon* p){
     delete p;
-} 
-
-    /* void ChargerLamp(const char* lamp, std::string filename, Stone* stone){
-        //Voir ce que la tablette retourne lorsqu'on appuie sur un bouton
-        std::string idlamp; //Variable temporaire
-        rapidxml::xml_node<> *root_node;
-        rapidxml::file<> xmlFile(filename.c_str());
-        rapidxml::xml_document<> doc;
-        doc.parse<0>(xmlFile.data());
-
-        root_node = doc.first_node("Lumieres");
-        rapidxml::xml_node<> *Mouvement_node = root_node->first_node("Lumiere");
-        for(Mouvement_node; Mouvement_node; Mouvement_node = Mouvement_node->next_sibling()){
-            if(Mouvement_node->first_attribute("id")->value == idlamp){
-                xmlNom = Mouvement_node->first_node("Peripherique")->first_node("Nom")->value();
-                xmlDescription = Mouvement_node->first_node("Peripherique")->first_node("Description")->value();
-                char cmdFormatNom[99];
-                strcpy(cmdFormatNom, "ST<{\"cmd_code\":\"set_text\",\"type\":\"label\",\"widget\":\"description2\",\"text\":\"");
-                strcpy(cmdFormatNom, xmlNom);
-                strcpy(cmdFormatNom, "\"}>ET");
-                mySerial->writeIt((char*) cmdFormatNom));
-                char cmdFormatDescription[99];
-                strcpy(cmdFormatDescription, "ST<{\"cmd_code\":\"set_text\",\"type\":\"label\",\"widget\":\"description2\",\"text\":\"");
-                strcpy(cmdFormatDescription, xmlDescription);
-                strcpy(cmdFormatDescription, "\"}>ET");
-                mySerial->writeIt((char*) cmdFormatDescription);
-            }
-        }
-
-        //Récupère l'historique de la base de données
-    } */
+}

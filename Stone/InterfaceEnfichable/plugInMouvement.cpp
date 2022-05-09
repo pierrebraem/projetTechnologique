@@ -32,10 +32,11 @@
 #include <cmath>
 #include <string>
 #include <sstream>
+#include <curl/curl.h>
 
 class plugInMouvement : public panelAddon{
 public:
-    //Déclaration variable XML
+    //Déclaration variables XML
     std::string xmlNom;
     std::string xmlDescription;
     char* xmlNoms[9];
@@ -43,8 +44,18 @@ public:
     //Déclaration variable mqtt
     myMqtt* mqtt = new myMqtt("mouvement", "zigbee2mqtt/0x00124b002342c261", "172.16.226.101", 1883);
 
+    //Déclaration variables curl
+    CURL* curl;
+    CURLcode res;
+    std::string historique;
+
     virtual double area() const {
         return side_length_ * side_length_ * sqrt(3) / 2;
+    }
+
+    static size_t WriteCallBack(void* contents, size_t size, size_t nmemb, void* userp){
+        ((std::string*)userp)->append((char*)contents, size * nmemb);
+        return size * nmemb;
     }
 
     //Va afficher le premier détecteur de mouvement dans la liste XML lors de l'affichage de la page
@@ -86,6 +97,16 @@ public:
         }
 
         //Récupère l'historique de la BDD
+        curl = curl_easy_init();
+        if(curl){
+            curl_easy_setopt(curl, CURLOPT_URL, "http://172.16.209.112:3000/api/presence/Mov03");
+            curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallBack);
+            curl_easy_setopt(curl, CURLOPT_WRITEDATA, &historique);
+            res = curl_easy_perform(curl);
+            curl_easy_cleanup(curl);
+
+            std::cout << historique << " \n";
+        }
 
         return 0;
     }

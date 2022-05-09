@@ -11,7 +11,7 @@ example: main.cpp panelAddon.hpp plugInMouvement.so plugInLumiere.so MySerial.cp
 	g++	-fPIC -std=c++2a -o example main.cpp MySerial.cpp stone.cpp myMqtt.cpp -ldl -lpthread -lmosquittopp
 
 plugInMouvement.so: plugInMouvement.cpp panelAddon.hpp stone.cpp MySerial.cpp myMqtt.cpp
-	$(CXX) $(CXXFLAGS) -fPIC -shared -o plugInMouvement.so plugInMouvement.cpp stone.cpp MySerial.cpp myMqtt.cpp
+	$(CXX) $(CXXFLAGS) -fPIC -shared -o plugInMouvement.so plugInMouvement.cpp stone.cpp MySerial.cpp myMqtt.cpp -lcurl
 
 plugInLumiere.so: plugInLumiere.cpp panelAddon.hpp stone.cpp MySerial.cpp myMqtt.cpp
 	$(CXX) $(CXXFLAGS) -fPIC -shared -o plugInLumiere.so plugInLumiere.cpp stone.cpp MySerial.cpp myMqtt.cpp
