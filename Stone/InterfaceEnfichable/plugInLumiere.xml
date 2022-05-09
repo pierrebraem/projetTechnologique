@@ -5,7 +5,7 @@
         <Heure>18:20</Heure>
         <Evenement>Lampe activée</Evenement>
         <Peripherique>
-            <Nom>Mov03</Nom>
+            <Nom>Lamp03</Nom>
             <Description>Logiciel de gestion des lampes</Description>
         </Peripherique>
     </Lumiere>
@@ -14,7 +14,7 @@
         <Heure>12:32</Heure>
         <Evenement>Lampe fermée</Evenement>
         <Peripherique>
-            <Nom>Mov05</Nom>
+            <Nom>Lamp05</Nom>
             <Description>Logiciel de gestion des lampes</Description>
         </Peripherique>
     </Lumiere>

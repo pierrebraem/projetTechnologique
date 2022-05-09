@@ -29,16 +29,22 @@
 #include "rapidxml.hpp"
 #include "rapidxml_utils.hpp"
 #include "myMqtt.hpp"
-#include "MySerial.h"
+#include "stone.h"
 #include <cmath>
 #include <string>
+#include <sstream>
 
 class plugInLumiere : public panelAddon{
     public:
     //Déclaration variable XML
     std::string xmlNom;
     std::string xmlDescription;
+    char* xmlNoms[9];
 
+    virtual double area() const {
+        return side_length_ * side_length_ * sqrt(3) / 2;
+    }
+    
     //Va afficher la première lumière dans la liste XML lors de l'affichage de la page
     int init(std::string filename, Stone* stone){
         rapidxml::xml_node<> *root_node;
@@ -48,13 +54,12 @@ class plugInLumiere : public panelAddon{
 
         //Récupère le nom est la description de la première lumière de la liste dans le fichier XML
         root_node = doc.first_node("Lumieres");
-        rapidxml::xml_node<> * Lumiere_node = root_node->first_node("Lumiere");
-        xmlNom = Lumiere_node->first_attribute("Peripherique")->first_node("Nom")->value();
-        xmlDescription = Lumiere_node->first_attribute("Peripherique")->first_node("Description")->value();
+        rapidxml::xml_node<>* Lumiere_node = root_node->first_node("Lumiere");
+        xmlNom = Lumiere_node->first_node("Peripherique")->first_node("Nom")->value();
+        xmlDescription = Lumiere_node->first_node("Peripherique")->first_node("Description")->value();
 
         //Met tous les noms des senseurs dans un tableau afin de les afficher dans des boutons
         int i = 0;
-        std::string xmlNoms[9];
         for(Lumiere_node; Lumiere_node; Lumiere_node = Lumiere_node->next_sibling()){
             if(i < 9){
                 xmlNoms[i] = Lumiere_node->first_node("Peripherique")->first_node("Nom")->value();
@@ -62,26 +67,36 @@ class plugInLumiere : public panelAddon{
             }
         }
 
-        //Met les informations dans l'écran Stone 
-        char cmdFormatNom[99];
-        strcpy(cmdFormatNom, "ST<{\"cmd_code\":\"set_text\",\"type\":\"label\",\"widget\":\"nomdectecteurlabel2\",\"text\":\"test\"}>ET");
-        //std::cout << cmdFormatNom << "\n";
-        //mySerial->writeIt((char*) cmdFormatNom));
-        char cmdFormatDescription[99];
-        strcpy(cmdFormatDescription, "ST<{\"cmd_code\":\"set_text\",\"type\":\"label\",\"widget\":\"description2\",\"text\":\"test\"}>ET");
-        //std::cout << cmdFormatDescription << "\n";
-        //mySerial->writeIt((char*) cmdFormatDescription);
+       //Met les informations dans l'écran Stone 
+        stone->setTexte("nomlectecteurlabel2", xmlNom.c_str());
+        stone->setTexte("descriptioncadre2", xmlDescription.c_str());
 
-        /* std::cout << xmlNom << "\n";
-        std::cout << xmlDescription << "\n";
-        for(std::string x : xmlNoms){
-            std::cout << x << "\n";
-        } */
+        for(int j = 0; i > j; j++){
+            int number = j + 1;
+            std::stringstream strs;
+            std::string s;
+            strs << number;
+            std::string ch = strs.str();
+
+            s += "bouton_lamp";
+            s += ch;
+            stone->setButton(s.c_str(), xmlNoms[j]);
+        }
+
 
         //Récupère l'historique de la BDD
 
         return 0;
     }
+};
+
+extern "C" panelAddon* create(){
+    return new plugInLumiere;
+}
+
+extern "C" void destroy(panelAddon* p){
+    delete p;
+} 
 
     /* void ChargerLamp(const char* lamp, std::string filename, Stone* stone){
         //Voir ce que la tablette retourne lorsqu'on appuie sur un bouton
@@ -112,4 +127,3 @@ class plugInLumiere : public panelAddon{
 
         //Récupère l'historique de la base de données
     } */
-}
