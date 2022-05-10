@@ -15,6 +15,8 @@
     - rapidxml_utils
     - MySerial
     - PanelAddon
+    - Curl
+    - Json
     
     Exemple d'utilisation 
         //Définition 

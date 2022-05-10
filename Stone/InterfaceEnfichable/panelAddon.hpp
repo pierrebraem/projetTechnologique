@@ -34,12 +34,13 @@ public:
     }
 
     virtual double area() const = 0;
+
+    static size_t WriteCallBack(void* contents, size_t size, size_t nmemb, void* userp){};
     
     //Fonction pour le capteur de mouvement
     virtual int init(std::string filename, Stone* stone){};
     virtual void lireMouvement(){};
     virtual void ChangerMov(const char* mov, std::string filename, Stone* stone){};
-    static size_t WriteCallBack(void* contents, size_t size, size_t nmemb, void* userp){};
 
     //Fonction pour le controle de lumière
     virtual void ChangerLamp(const char* lamp, std::string filename, Stone* stone){};
