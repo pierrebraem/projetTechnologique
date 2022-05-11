@@ -7,8 +7,9 @@
 
 all: TestStone run
 
-TestStone:  main.cpp mqtt.cpp
-	g++	-fPIC -std=c++2a -o TestStone mqtt.cpp  main.cpp -lpthread
+TestStone:  main.cpp MySerial.cpp
+	g++	-fPIC -std=c++2a -o TestStone MySerial.cpp  main.cpp -lpthread
+
 
 clean:
 # 	rm -f SerialPort.so
