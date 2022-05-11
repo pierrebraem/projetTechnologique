@@ -11,16 +11,13 @@
     @file     main.cpp
     @author   Pierre Braem
     @version  1.0 2022-05-03
-
     [env:esp32doit-devkit-v1]
     platform = espressif32
     board = esp32doit-devkit-v1
     framework = arduino
-
 Librairie utilisée :
     pubsubclient //Cette librairie permet de gérer la connexion Wifi de l'ESP32.
                   Mais aussi à l'envoie et la réception des données entre le broker et l'ESP32.
-
 Configuration du système :
   Adresse IP du broker : 172.16.226.101:1883
   Capteur de mouvement :
