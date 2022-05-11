@@ -1,11 +1,11 @@
 ###
-//Créer une nouvelle historique
+//Créer une nouvelle historique d'une présence
 POST http://localhost:3000/api/presence
 content-type: application/json
 
 {
     "date": "2022-03-14",
-    "heure": "18:20",
+    "heure": "18:25",
     "evenement": "début d'une présence détectée",
     "peripherique": {
         "nom": "Mov03",
@@ -13,8 +13,30 @@ content-type: application/json
     }
 }
 ###
-//Affiche tout l'historique
+//Affiche tout l'historique d'une présence
 GET http://localhost:3000/api/presence
 ###
-//Affiche l'historique d'un périphérique
+//Affiche l'historique d'un périphérique d'une présence
 GET http://localhost:3000/api/presence/Mov03
+###
+###
+###
+//Créer une nouvelle historique d'une lumière
+POST http://localhost:3000/api/lumiere
+content-type: application/json
+
+{
+    "date": "2022-05-14",
+    "heure": "12:03",
+    "evenement": "lumière allumée",
+    "peripherique": {
+        "nom": "Lamp01",
+        "description": "Situé dans le local C089"
+    }
+}
+###
+//Affiche tout l'historique d'une lumière
+GET http://localhost:3000/api/lumiere
+###
+//Affiche l'historique d'un périphérique d'une lumière
+GET http://localhost:3000/api/lumiere/Lamp01

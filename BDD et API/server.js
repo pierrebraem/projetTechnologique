@@ -12,7 +12,9 @@ tdb.once('open', () => console.log("Connecté à la base de données"))
 app.use(express.json())
 
 const presenceRouter = require('./routes/presence')
+const lumiereRouter = require('./routes/lumiere')
 
 app.use('/api/presence', presenceRouter)
+app.use('/api/lumiere', lumiereRouter)
 
 app.listen(3000, () => console.log("L'API a démarré"))
